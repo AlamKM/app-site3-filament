@@ -9,5 +9,11 @@ class Parameterqc extends Model
 {
     use HasFactory;
 
-    
+    protected $fillable = [
+        'category',
+        'parameter',
+        'unit',
+        'method',
+        'note',
+    ];
 }
