@@ -17,4 +17,8 @@ class Item extends Model
         'unit',
         'note',
     ];
+
+    public function QcFpa(){
+        return $this->hasMany(QcFpa::class);
+    }
 }

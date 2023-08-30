@@ -16,4 +16,8 @@ class Parameterqc extends Model
         'method',
         'note',
     ];
+
+    public function QcFpa(){
+        return $this->hasMany(QcFpa::class);
+    }
 }

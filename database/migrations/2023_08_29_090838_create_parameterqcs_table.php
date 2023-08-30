@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('parameterqcs', function (Blueprint $table) {
             $table->id();
-            $table->string('category');
-            $table->string('parameter');
-            $table->string('unit');
-            $table->string('method');
-            $table->string('note');
+            $table->string('category')->nullable();
+            $table->string('parameter')->nullable();
+            $table->string('unit')->nullable();
+            $table->string('method')->nullable();
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }

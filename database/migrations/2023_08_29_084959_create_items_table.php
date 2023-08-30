@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->string('item_code')->unique();
-            $table->string('item_name');
-            $table->string('category');
-            $table->string('sub_category');
-            $table->string('unit');
-            $table->string('note');
+            $table->string('item_code')->unique()->nullable();
+            $table->string('item_name')->nullable();
+            $table->string('category')->nullable();
+            $table->string('sub_category')->nullable();
+            $table->string('unit')->nullable();
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }

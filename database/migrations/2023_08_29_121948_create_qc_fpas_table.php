@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('qc_fpas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('item_id')->constrained()->nullable();
+            $table->string('no_fpa')->nullable();
+            $table->string('item')->nullable();
+            $table->string('status_item')->nullable();
+            $table->string('create_by')->nullable();
+            $table->string('qcanalis_by')->nullable();
+            $table->string('status_fpa')->nullable();
             $table->timestamps();
         });
     }
