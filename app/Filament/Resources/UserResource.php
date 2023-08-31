@@ -3,8 +3,8 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use App\Models\User;
 use Filament\Tables;
-use App\Models\Parameterqc;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
@@ -13,13 +13,13 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\ParameterResource\Pages;
+use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\ParameterResource\RelationManagers;
+use App\Filament\Resources\UserResource\RelationManagers;
 
-class ParameterResource extends Resource
+class UserResource extends Resource
 {
-    protected static ?string $model = Parameterqc::class;
+    protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -28,13 +28,11 @@ class ParameterResource extends Resource
         return $form
             ->schema([
                 Card::make()->columns(2)->schema([
-                TextInput::make('category')->required(),
-                TextInput::make('parameter')->required(),
-                TextInput::make('unit')->required(),
-                TextInput::make('method')->required(),
-                TextInput::make('note'),
-            ])
-        ]);
+                TextInput::make('name')->required(),
+                TextInput::make('email')->email()->required(),
+                TextInput::make('password')->password()->required(),
+                ])
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -51,11 +49,8 @@ class ParameterResource extends Resource
                         );
                     }
                 ),
-                TextColumn::make('category')->sortable()->searchable(),
-                TextColumn::make('parameter')->sortable()->searchable(),
-                TextColumn::make('unit')->sortable()->searchable(),
-                TextColumn::make('method')->searchable(),
-                TextColumn::make('note')->searchable(),
+                TextColumn::make('name')->sortable()->searchable(),
+                TextColumn::make('email')->sortable()->searchable(),
             ])
             ->filters([
                 //
@@ -78,9 +73,9 @@ class ParameterResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListParameters::route('/'),
-            'create' => Pages\CreateParameter::route('/create'),
-            'edit' => Pages\EditParameter::route('/{record}/edit'),
+            'index' => Pages\ListUsers::route('/'),
+            'create' => Pages\CreateUser::route('/create'),
+            'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }    
 }
