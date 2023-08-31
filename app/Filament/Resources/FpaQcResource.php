@@ -2,16 +2,22 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\FpaQcResource\Pages;
-use App\Filament\Resources\FpaQcResource\RelationManagers;
-use App\Models\QcFpa;
 use Filament\Forms;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use App\Models\Item;
 use Filament\Tables;
+use App\Models\QcFpa;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\FpaQcResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\FpaQcResource\RelationManagers;
 
 class FpaQcResource extends Resource
 {
@@ -23,15 +29,32 @@ class FpaQcResource extends Resource
     {
         return $form
             ->schema([
-                //
-            ]);
+                Card::make()->schema([
+                TextInput::make('no_fpa'),
+                Select::make('item')->options(Item::all()->pluck('item','item_name'))->searchable(),
+                TextInput::make('status_item'),
+                TextInput::make('create_by'),
+                TextInput::make('qcanalis_by'),
+                TextInput::make('status_fpa'),
+            ])
+        ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('No')->getStateUsing(
+                    static function ($rowLoop, HasTable $livewire): string {
+                        return (string) (
+                            $rowLoop->iteration +
+                            ($livewire->tableRecordsPerPage * (
+                                $livewire->page - 1
+                            ))
+                        );
+                    }
+                ),
+                
             ])
             ->filters([
                 //
