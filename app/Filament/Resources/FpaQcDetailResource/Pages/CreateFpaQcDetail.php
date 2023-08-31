@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateFpaQcDetail extends CreateRecord
 {
     protected static string $resource = FpaQcDetailResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

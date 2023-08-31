@@ -32,7 +32,7 @@ class ParameterResource extends Resource
                 TextInput::make('parameter')->required(),
                 TextInput::make('unit')->required(),
                 TextInput::make('method')->required(),
-                TextInput::make('note')->required(),
+                TextInput::make('note'),
             ])
         ]);
     }

@@ -30,6 +30,7 @@ class FpaQcResource extends Resource
         return $form
             ->schema([
                 Card::make()->schema([
+                Select::make('item_id')->relationship('item', 'id')->hidden(),
                 TextInput::make('no_fpa'),
                 Select::make('item')->options(Item::all()->pluck('item','item_name'))->searchable(),
                 TextInput::make('status_item'),
