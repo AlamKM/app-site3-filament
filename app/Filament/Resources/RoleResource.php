@@ -3,44 +3,40 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
-use App\Models\Item;
 use Filament\Tables;
-use App\Models\QcFpa;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Spatie\Permission\Models\Role;
 use Filament\Forms\Components\Card;
-use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\FpaQcResource\Pages;
+use App\Filament\Resources\RoleResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\FpaQcResource\RelationManagers;
+use App\Filament\Resources\RoleResource\RelationManagers;
 
-class FpaQcResource extends Resource
+class RoleResource extends Resource
 {
-    protected static ?string $model = QcFpa::class;
+    protected static ?string $model = Role::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-cog';
 
-    protected static ?string $navigationGroup = 'Quality Control';
+    protected static ?string $navigationGroup = 'Settings';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Card::make()->schema([
-                Select::make('item_id')->relationship('item', 'id')->hidden(),
-                TextInput::make('no_fpa'),
-                Select::make('item')->options(Item::all()->pluck('item','item_name'))->searchable(),
-                TextInput::make('status_item'),
-                TextInput::make('create_by'),
-                TextInput::make('qcanalis_by'),
-                TextInput::make('status_fpa'),
-            ])
-        ]);
+                Card::make()->columns(2)->schema([
+                    TextInput::make('name')
+                    ->minLength(3)
+                    ->maxLength(100)
+                    ->unique(ignoreRecord: true)
+                    ->required(),
+                ])
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -57,7 +53,7 @@ class FpaQcResource extends Resource
                         );
                     }
                 ),
-                
+                TextColumn::make('name')->sortable()->searchable()->limit(50),
             ])
             ->filters([
                 //
@@ -80,9 +76,9 @@ class FpaQcResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListFpaQcs::route('/'),
-            'create' => Pages\CreateFpaQc::route('/create'),
-            'edit' => Pages\EditFpaQc::route('/{record}/edit'),
+            'index' => Pages\ListRoles::route('/'),
+            'create' => Pages\CreateRole::route('/create'),
+            'edit' => Pages\EditRole::route('/{record}/edit'),
         ];
     }    
 }
