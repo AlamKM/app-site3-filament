@@ -17,7 +17,7 @@ class FpaQcDetailResource extends Resource
 {
     protected static ?string $model = QcFpaDetail::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-beaker';
 
     protected static ?string $navigationGroup = 'Quality Control';
 
