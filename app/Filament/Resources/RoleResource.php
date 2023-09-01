@@ -9,9 +9,11 @@ use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Spatie\Permission\Models\Role;
 use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\SelectColumn;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\RoleResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -35,6 +37,9 @@ class RoleResource extends Resource
                     ->maxLength(100)
                     ->unique(ignoreRecord: true)
                     ->required(),
+                    Select::make('permissions')
+                    ->multiple()
+                    ->relationship('permissions', 'name')->preload(),
                 ])
             ]);
     }
@@ -54,6 +59,7 @@ class RoleResource extends Resource
                     }
                 ),
                 TextColumn::make('name')->sortable()->searchable()->limit(50),
+                TextColumn::make('permissions','name'),
             ])
             ->filters([
                 //
