@@ -2,8 +2,9 @@
 
 namespace App\Filament\Resources\UserResource\Pages;
 
-use App\Filament\Resources\UserResource;
 use Filament\Pages\Actions;
+use App\Filament\Resources\UserResource;
+use Filament\Pages\Actions\CreateAction;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateUser extends CreateRecord
@@ -14,4 +15,6 @@ class CreateUser extends CreateRecord
     {
         return $this->getResource()::getUrl('index');
     }
+
+    
 }

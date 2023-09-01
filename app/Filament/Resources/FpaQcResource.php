@@ -25,6 +25,8 @@ class FpaQcResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    protected static ?string $navigationGroup = 'Quality Control';
+
     public static function form(Form $form): Form
     {
         return $form

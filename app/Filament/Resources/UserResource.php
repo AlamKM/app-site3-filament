@@ -8,11 +8,15 @@ use Filament\Tables;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Resources\Pages\Page;
 use Filament\Forms\Components\Card;
+use Illuminate\Support\Facades\Hash;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\TextInput;
+use Filament\Pages\Actions\CreateAction;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Resources\Pages\CreateRecord;
 use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\UserResource\RelationManagers;
@@ -23,15 +27,30 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    protected static ?string $navigationGroup = 'Settings';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Card::make()->columns(2)->schema([
-                TextInput::make('name')->required(),
-                TextInput::make('email')->email()->required(),
-                TextInput::make('password')->password()->required(),
-                ])
+                TextInput::make('name')
+                ->required()
+                ->maxLength(100)
+                ->autofocus()
+                ->placeholder('Enter Your Name'),
+                TextInput::make('email')
+                ->email()
+                ->required()
+                ->label('Email Address')
+                ->maxLength(100)
+                ->placeholder('Enter Your Email'),
+                TextInput::make('password')
+                ->password()
+                ->required(fn (Page $livewire): bool => $livewire instanceof CreateRecord)
+                ->minLength(8)
+                ->placeholder('Password Here')
+                 ])
             ]);
     }
 
@@ -77,5 +96,7 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
+
+        CreateAction::make()->successNotificationTitle('User registered');
     }    
 }
