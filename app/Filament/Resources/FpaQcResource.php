@@ -31,16 +31,16 @@ class FpaQcResource extends Resource
     {
         return $form
             ->schema([
-                Card::make()->schema([
-                Select::make('item_id')->relationship('item', 'id')->hidden(),
-                TextInput::make('no_fpa'),
-                Select::make('item')->options(Item::all()->pluck('item','item_name'))->searchable(),
-                TextInput::make('status_item'),
-                TextInput::make('create_by'),
-                TextInput::make('qcanalis_by'),
-                TextInput::make('status_fpa'),
-            ])
-        ]);
+                Card::make()->columns(2)->schema([
+                    Select::make('item_id')->relationship('item', 'id'),
+                    TextInput::make('no_fpa'),
+                    Select::make('item')->options(Item::all()->pluck('item', 'item_name'))->searchable(),
+                    TextInput::make('status_item'),
+                    TextInput::make('create_by'),
+                    TextInput::make('qcanalis_by'),
+                    TextInput::make('status_fpa'),
+                ])
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -49,15 +49,13 @@ class FpaQcResource extends Resource
             ->columns([
                 TextColumn::make('No')->getStateUsing(
                     static function ($rowLoop, HasTable $livewire): string {
-                        return (string) (
-                            $rowLoop->iteration +
-                            ($livewire->tableRecordsPerPage * (
-                                $livewire->page - 1
+                        return (string) ($rowLoop->iteration +
+                            ($livewire->tableRecordsPerPage * ($livewire->page - 1
                             ))
                         );
                     }
                 ),
-                
+
             ])
             ->filters([
                 //
@@ -69,14 +67,14 @@ class FpaQcResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -84,5 +82,5 @@ class FpaQcResource extends Resource
             'create' => Pages\CreateFpaQc::route('/create'),
             'edit' => Pages\EditFpaQc::route('/{record}/edit'),
         ];
-    }    
+    }
 }
